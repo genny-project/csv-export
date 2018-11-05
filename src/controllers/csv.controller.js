@@ -1,5 +1,6 @@
 const csv = (req, res) => {
-  console.log('This is a test');
+  const csvString = req.body || null;
+  console.log(csvString);
   return res.json({ url: 'URL goes here' });
 };
 
