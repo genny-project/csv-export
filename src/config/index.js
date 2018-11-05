@@ -4,7 +4,7 @@ dotEnv.load();
 
 
 const config = {
-  port: process.env.PORT,
+  port: process.env.PORT || 7777 ,
 };
 
 export default config;

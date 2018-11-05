@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import multer from 'multer';
+import cors from 'cors';
 import prettyError from 'pretty-error';
 import config from './config';
 import MainRouter from './routes';
@@ -14,7 +15,8 @@ prettyError.start();
 app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
-  .use(morgan('combined'));
+  .use(morgan('combined'))
+  .use(cors());
 
 app.use(express.static(path.join('{__dirname}/../public')));
 

@@ -4,6 +4,6 @@ import { csv } from '../controllers/csv.controller';
 const Router = express.Router();
 
 
-Router.get('/', csv);
+Router.post('/', csv);
 
 export default Router;

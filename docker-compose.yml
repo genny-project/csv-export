@@ -1,0 +1,6 @@
+csvmicroservice:
+  build: .
+  ports:
+    - "7777:7777"
+  environment:
+    - PORT=7777
