@@ -3,7 +3,6 @@ import path from 'path';
 
 const createCsvWriter = require('csv-writer').createArrayCsvWriter;
 
-
 const csv = (req, res) => {
   // Default the request to be null to prevent inconsistencies
   const csvString = req.body || null;
@@ -34,6 +33,5 @@ const csv = (req, res) => {
     return res.status(500).json({ message: "String not found or doesn't exists" });
   }
 };
-
 
 export { csv };
