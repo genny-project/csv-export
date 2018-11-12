@@ -1,17 +1,27 @@
+import aws from 'aws-sdk';
 import * as CSV from 'csv-string';
 import path from 'path';
+import uuid from 'uuid/v1';
+import s3Upload from '../utils/aws.utils';
+
+import config from '../config';
+
+const BUCKET_NAME = config.bucketName;
+const IAM_USER_KEY = config.keyId;
+const IAM_USER_SECRET = config.accessKey;
+const URL = config.url;
+aws.config.update({ accessKeyId: IAM_USER_KEY, secretAccessKey: IAM_USER_SECRET });
+const s3bucket = new aws.S3({ params: { Bucket: BUCKET_NAME } });
 
 const createCsvWriter = require('csv-writer').createArrayCsvWriter;
 
 const csv = (req, res) => {
-  // Default the request to be null to prevent inconsistencies
   const csvString = req.body || null;
   if (csvString) {
-    // const strrr = '"CompanyName", "ReleaseNumber", "ReleaseDate", "RailYard", "ShippingCompany", "NumberOfContainer", "ContainerSize", "DeliveryDate", "AllocatedDriver", "ContactNumber", "ContainerId", "ContainerNumber",\n"Name","Number","2018-11-24","Yard","Line","1","45DR","2018-11-07T05:15:31","PER_SAFAL0079_AT_GMAILCOM","Number","1212","45DR",\n';
     const check = csvString;
     try {
-      const arr = CSV.parse(check);
-      const filename = Date.now();
+      const arr = CSV.parse(JSON.stringify(check));
+      const filename = uuid();
       const csvWriter = createCsvWriter({
         header: arr[0],
         path: path.join(__dirname, `../../public/uploads/${filename}.csv`),
@@ -21,8 +31,18 @@ const csv = (req, res) => {
 
       csvWriter.writeRecords(records) // returns a promise
         .then(() => {
-          console.log('...Done');
-          return res.status(200).json({ message: 'Done' });
+          console.log('...File written on the disk');
+
+          /* s3 upload begins here */
+          const dummyFile = {};
+          dummyFile.originalFilename = filename;
+          dummyFile.path = path.join(__dirname, `../../public/uploads/${filename}.csv`);
+
+          s3Upload(dummyFile, (data) => {
+            console.log(data);
+            const url = data.key;
+            return res.status(200).json({ url });
+          });
         });
     } catch (err) {
       res.status(500);
@@ -34,4 +54,19 @@ const csv = (req, res) => {
   }
 };
 
-export { csv };
+
+const getCsv = (req, res) => {
+  const { fileName = '2a83d400-e3d2-11e8-8a9c-030704f844fa.csv' } = req.body;
+
+  const options = {
+    Bucket: config.bucketName,
+    Key: fileName,
+  };
+
+  s3bucket.getObject(options, (err, data) => {
+    res.attachment(fileName);
+    res.send(data.Body);
+  });
+};
+
+export { csv, getCsv };

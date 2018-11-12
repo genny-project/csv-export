@@ -1,4 +1,3 @@
-MAINTAINER Nischal
 FROM node:8.11.3
 WORKDIR /app
 COPY package.json /app

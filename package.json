@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.351.0",
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
@@ -31,7 +32,8 @@
     "path": "^0.12.7",
     "pm2": "^3.2.2",
     "prettier-eslint-cli": "^4.7.1",
-    "pretty-error": "^2.1.1"
+    "pretty-error": "^2.1.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

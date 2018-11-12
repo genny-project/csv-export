@@ -15,5 +15,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Router = _express2.default.Router();
 
 Router.post('/', _csv.csv);
+Router.post('/download', _csv.getCsv);
 
 exports.default = Router;
