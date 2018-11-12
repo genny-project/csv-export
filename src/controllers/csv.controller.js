@@ -56,7 +56,8 @@ const csv = (req, res) => {
 
 
 const getCsv = (req, res) => {
-  const { fileName = '2a83d400-e3d2-11e8-8a9c-030704f844fa.csv' } = req.body;
+  const { fileName } = req.params;
+  console.log(fileName);
 
   const options = {
     Bucket: config.bucketName,

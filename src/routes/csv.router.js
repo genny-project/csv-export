@@ -5,6 +5,6 @@ const Router = express.Router();
 
 
 Router.post('/', csv);
-Router.post('/download', getCsv);
+Router.get('/download/:fileName', getCsv);
 
 export default Router;
