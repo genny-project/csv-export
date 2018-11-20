@@ -38,10 +38,15 @@ const csv = (req, res) => {
           dummyFile.originalFilename = filename;
           dummyFile.path = path.join(__dirname, `../../public/uploads/${filename}.csv`);
 
-          s3Upload(dummyFile, (data) => {
-            console.log(data);
-            const url = data.key;
-            return res.status(200).json({ url });
+          s3Upload(dummyFile, (message) => {
+            if (message && message.data) {
+              const url = message.data.key;
+              return res.status(200).json({ url });
+            }
+            if (message && message.error) {
+              const err = message.error;
+              return res.status(200).json({ err });
+            }
           });
         });
     } catch (err) {
