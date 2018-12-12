@@ -8,8 +8,7 @@ const config = {
   bucketName: process.env.BUCKET_NAME || null,
   accessKey: process.env.SECRET_ACCESS_KEY || null,
   keyId: process.env.ACCESS_KEY_ID || null,
-  awsRegion: process.env.REGION,
-  url: process.env.URL,
+  awsRegion: process.env.REGION || null,
 };
 
 export default config;

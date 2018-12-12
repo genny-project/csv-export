@@ -2,3 +2,8 @@ csvmicroservice:
   build: .
   ports:
     - "7777:7777"
+  environment:
+    - BUCKET_NAME=something
+    - SECRET_ACCESS_KEY=something
+    - ACCESS_KEY_ID=something
+    - REGION=something
